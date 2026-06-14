@@ -74,6 +74,10 @@
 		const mkbox = document.querySelector('.markdown-box')
 		meun.style.display = 'block';
 		mkbox.style.display = 'none';
+
+		const url = new URL(location.href);
+		url.searchParams.delete('docName');
+		history.replaceState(null, '', url);
 	}
 
 	const meunEvnet = (fileUrl) => {
@@ -84,7 +88,24 @@
 				document.getElementById('content').innerHTML = marked.parse(text);
 			});
 		showMarkDown()
+
+		const url = new URL(window.location.href);
+		url.searchParams.set('docName', fileUrl);
+		history.replaceState(null, '', url);
 	}
+
+
+
+	(() => {
+
+		const url = new URL(location.href);
+
+		// 根据参数名取值
+		const docName = url.searchParams.get('docName');
+
+		docName && meunEvnet(docName)
+
+	})()
 
 </script>
 
