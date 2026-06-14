@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Notepad</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<!-- 引入 Markdown 解析库和样式 -->
+	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.2.0/github-markdown.min.css">
+	<!-- 样式 -->
+	<style>
+		body {
+			max-width: 900px;
+			margin: 0 auto;
+			padding: 20px;
+			font-family: "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+		}
+
+		.markdown-box {
+			display: none;
+		}
+
+		.meun-list>div {
+			line-height: 44px;
+			color: #0969da;
+			/* GitHub 风格蓝色 */
+			text-decoration: none;
+			/* 去掉默认下划线 */
+			transition: all 0.2s ease;
+			/* 过渡动画，hover 更顺滑 */
+		}
+
+		.btn {
+			display: inline-block;
+			width: 100%;
+			padding: 7px 16px;
+			background: #f0f0f0;
+			color: #333;
+			border-radius: 4px;
+			text-decoration: none;
+			border: 1px solid #ccc;
+			cursor: pointer;
+			transition: all 0.2s;
+			margin-bottom: 40px;
+			text-align: center;
+			box-sizing: border-box;
+			user-select: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="meun-list">
+		<div onclick="meunEvnet('./markdown/git.md')">《git常用命令》</div>
+	</div>
+	<div class="markdown-box">
+		<div class="btn" onclick="hiddenMarkDown()">返回</div>
+		<div class="markdown-body" id="content"></div>
+	</div>
+</body>
+<script>
+
+	const showMarkDown = () => {
+		const meun = document.querySelector('.meun-list')
+		const mkbox = document.querySelector('.markdown-box')
+		meun.style.display = 'none';
+		mkbox.style.display = 'block';
+	}
+
+	const hiddenMarkDown = () => {
+		const meun = document.querySelector('.meun-list')
+		const mkbox = document.querySelector('.markdown-box')
+		meun.style.display = 'block';
+		mkbox.style.display = 'none';
+	}
+
+	const meunEvnet = (fileUrl) => {
+		fetch(fileUrl + '?t=' + Date.now())
+			.then(response => response.text())
+			.then(text => {
+				console.log('text', text)
+				document.getElementById('content').innerHTML = marked.parse(text);
+			});
+		showMarkDown()
+	}
+
+</script>
+
+</html>
