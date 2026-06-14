@@ -19,6 +19,7 @@
 
 		.markdown-box {
 			display: none;
+			padding: 0 0 150px;
 		}
 
 		.meun-list>div {
@@ -31,18 +32,22 @@
 			/* 过渡动画，hover 更顺滑 */
 		}
 
-		.btn {
+		.fixed-btn {
+			position: fixed;
+			right: 20px;
+			bottom: 50px;
 			display: inline-block;
-			width: 100%;
-			padding: 7px 16px;
+			width: 58px;
+			height: 58px;
+			line-height: 58px;
+			border-radius: 58px;
+			overflow: hidden;
 			background: #f0f0f0;
 			color: #333;
-			border-radius: 4px;
 			text-decoration: none;
 			border: 1px solid #ccc;
 			cursor: pointer;
 			transition: all 0.2s;
-			margin-bottom: 40px;
 			text-align: center;
 			box-sizing: border-box;
 			user-select: none;
@@ -57,24 +62,28 @@
 		<div onclick="meunEvnet('./markdown/array.md')">《数字的扩展》</div>
 	</div>
 	<div class="markdown-box">
-		<div class="btn" onclick="hiddenMarkDown()">返回</div>
 		<div class="markdown-body" id="content"></div>
 	</div>
+	<div class="fixed-btn" onclick="hiddenMarkDown()">返回</div>
 </body>
 <script>
 
 	const showMarkDown = () => {
 		const meun = document.querySelector('.meun-list')
 		const mkbox = document.querySelector('.markdown-box')
+		const btn = document.querySelector('.fixed-btn')
 		meun.style.display = 'none';
 		mkbox.style.display = 'block';
+		btn.style.display = 'block';
 	}
 
 	const hiddenMarkDown = () => {
 		const meun = document.querySelector('.meun-list')
 		const mkbox = document.querySelector('.markdown-box')
+		const btn = document.querySelector('.fixed-btn')
 		meun.style.display = 'block';
 		mkbox.style.display = 'none';
+		btn.style.display = 'none';
 
 		const url = new URL(location.href);
 		url.searchParams.delete('docName');
@@ -85,7 +94,6 @@
 		fetch(fileUrl + '?t=' + Date.now())
 			.then(response => response.text())
 			.then(text => {
-				console.log('text', text)
 				document.getElementById('content').innerHTML = marked.parse(text);
 			});
 		showMarkDown()
@@ -95,17 +103,11 @@
 		history.replaceState(null, '', url);
 	}
 
-
-
 	(() => {
-
 		const url = new URL(location.href);
-
 		// 根据参数名取值
 		const docName = url.searchParams.get('docName');
-
 		docName && meunEvnet(docName)
-
 	})()
 
 </script>

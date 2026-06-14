@@ -1,7 +1,11 @@
 #### map函数
-~~~javascript
+~~~javaacript
 arr.map(callback, thisArg)  
+~~~
+- callback：遍历回调
+- thisArg（可选）：指定回调内的 this
 
+~~~javascript
 const 新数组 = 原数组.map( (元素, 索引, 原数组) => {
   // 处理逻辑，必须 return 结果
   return 新值;
@@ -17,10 +21,13 @@ const 新数组 = 原数组.map( (元素, 索引, 原数组) => {
 
 
 #### filter函数
-~~~javascript
+~~~javaacript
 arr.filter(callback, thisArg)  
-
-const 新数组 = 原数组.filter((元素, 索引, 原数组) => {
+~~~
+- callback：遍历回调
+- thisArg（可选）：指定回调内的 this
+~~~javascript
+ const 新数组 = 原数组.filter((元素, 索引, 原数组) => {
   // 条件判断，返回 true / false
   return 布尔值;
 });
