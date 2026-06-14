@@ -15,7 +15,7 @@ https://gengwenxiang.github.io/notepad/index.html
 #### http-server
 http-server -a 127.0.0.1 -p 8080    
 
-#### wifi 
+#### WIFI 
 shj20008  
 shj@20008.
 
