@@ -6,8 +6,9 @@ wenx1213@outlook.com
 wenx1213@outlook.com  
 gengwenxiang
 
-#### 刷新IP
-ipconfig /release
+#### ipconfig
+ipconfig /release	释放现有 IP  
+ipconfig /renew	    向路由器申请新 IP
 
 #### 访问地址
 https://gengwenxiang.github.io/notepad/index.html
