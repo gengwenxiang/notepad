@@ -54,7 +54,7 @@ fs.appendFile('./workspace/text.txt', '唯吾德馨', err => {
 ~~~
 
 
-#### 读取xlxs json
+#### 读取xlsx json
 ~~~nodejs
 const fs = require('fs')
 const XLSX = require('xlsx')
