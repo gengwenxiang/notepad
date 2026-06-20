@@ -22,7 +22,7 @@
 			padding: 0 0 150px;
 		}
 
-		.meun-list>div {
+		.menu-list>div {
 			line-height: 44px;
 			color: #0969da;
 			/* GitHub 风格蓝色 */
@@ -57,12 +57,7 @@
 </head>
 
 <body>
-	<div class="meun-list">
-		<div onclick="meunEvnet('./markdown/account.md')">《常用账号》</div>
-		<div onclick="meunEvnet('./markdown/git.md')">《Git常用命令》</div>
-		<div onclick="meunEvnet('./markdown/array.md')">《数字的扩展》</div>
-		<div onclick="meunEvnet('./nodejs/fs.md')">《文件系统管理》</div>
-	</div>
+	<div class="menu-list" id="menuWrap"></div>
 	<div class="markdown-box">
 		<div class="markdown-body" id="content"></div>
 	</div>
@@ -70,8 +65,29 @@
 </body>
 <script>
 
+	// 菜单数据
+	const menuData = [
+		{
+			title: "常用账号",
+			path: "./markdown/account.md"
+		},
+		{
+			title: "Git常用命令",
+			path: "./markdown/git.md"
+		},
+		{
+			title: "数字的扩展",
+			path: "./markdown/array.md"
+		},
+		{
+			title: "文件系统管理",
+			path: "./nodejs/fs.md"
+		}
+	];
+
+	// 显示markdown
 	const showMarkDown = () => {
-		const meun = document.querySelector('.meun-list')
+		const meun = document.querySelector('.menu-list')
 		const mkbox = document.querySelector('.markdown-box')
 		const btn = document.querySelector('.fixed-btn')
 		meun.style.display = 'none';
@@ -79,8 +95,9 @@
 		btn.style.display = 'block';
 	}
 
+	// 隐藏markdown 显示菜单
 	const hiddenMarkDown = () => {
-		const meun = document.querySelector('.meun-list')
+		const meun = document.querySelector('.menu-list')
 		const mkbox = document.querySelector('.markdown-box')
 		const btn = document.querySelector('.fixed-btn')
 		meun.style.display = 'block';
@@ -92,7 +109,8 @@
 		history.replaceState(null, '', url);
 	}
 
-	const meunEvnet = (fileUrl) => {
+	// 点击事件
+	const menuEvnet = (fileUrl) => {
 		fetch(fileUrl + '?t=' + Date.now())
 			.then(response => response.text())
 			.then(text => {
@@ -105,13 +123,29 @@
 		history.replaceState(null, '', url);
 	}
 
+	// main 程序主入口
 	(() => {
-		const url = new URL(location.href);
-		// 根据参数名取值
-		const docName = url.searchParams.get('docName');
-		docName && meunEvnet(docName)
-	})()
 
+		// 数据驱动dom结构
+		const menuWrap = document.getElementById("menuWrap");
+		const domList = menuData.map((item, index) => {
+			const div = document.createElement("div");
+			div.innerText = `${index + 1}.《${item.title}》`;
+			div.dataset.path = item.path;
+			div.addEventListener("click", () => {
+				menuEvnet(item.path);
+			});
+			return div;
+		});
+		domList.forEach(dom => menuWrap.appendChild(dom));
+
+
+		// 根据路由参数读取markdown并显示
+		const url = new URL(location.href);
+		const docName = url.searchParams.get('docName');
+		docName && menuEvnet(docName)
+
+	})()
 </script>
 
 </html>
