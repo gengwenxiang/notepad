@@ -16,8 +16,7 @@ writeFileSync 同步写入文件
 ~~~nodejs
 const fs = require('fs')
 try {
-    fs.writeFileSync('./workspace/text.txt',
-        '山不在高，有仙则灵\n')
+    fs.writeFileSync('./workspace/text.txt','山不在高，有仙则灵\n')
     console.log('同步写入成功')
 } catch (err) {
     console.log('同步写入失败')
@@ -82,5 +81,36 @@ fs.readFile('./workspace/package.json', 'utf-8', (err, buf) => {
 
     const data = JSON.parse(buf)
     console.log('data', data)
+})
+~~~
+
+~~~nodejs
+const fs = require('fs')
+const XLSX = require('xlsx')
+
+// 二进制读取xlsx，不传编码，返回Buffer
+fs.readFile('./workspace/src/excel.xlsx', (err, buf) => {
+    if (err) {
+        console.error('读取失败：', err)
+        return
+    }
+    // 转成json数组
+    const workbook = XLSX.read(buf)
+    const sheetName = workbook.SheetNames[0]
+    const sheet = workbook.Sheets[sheetName]
+    // 转成json数组
+    const data = XLSX.utils.sheet_to_json(sheet)
+
+    const newRow = [{ '姓名': '张蓉', '工号': 83609698, '姓名+工号': '张蓉83609698' }]
+    const allData = [...data, ...newRow]
+
+    const newSheet = XLSX.utils.json_to_sheet(allData)
+    workbook.Sheets[sheetName] = newSheet
+
+    const buffer = XLSX.write(workbook, { type: 'buffer', bookType: 'xlsx' })
+
+    fs.writeFile('./workspace/src/excel.xlsx', buffer, err => {
+        if (!err) console.log('追加数据成功')
+    })
 })
 ~~~
